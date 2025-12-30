@@ -6,35 +6,17 @@
     <title>Tao Video</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--tg-theme-bg-color, #ffffff);
             color: var(--tg-theme-text-color, #000000);
             padding: 20px;
         }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: var(--tg-theme-text-color);
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 14px;
-        }
+        .container { max-width: 500px; margin: 0 auto; }
+        h1 { font-size: 24px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
         input, select {
             width: 100%;
             padding: 12px;
@@ -44,15 +26,7 @@
             background: var(--tg-theme-bg-color, #fff);
             color: var(--tg-theme-text-color, #000);
         }
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--tg-theme-button-color, #0088cc);
-        }
-        .image-inputs {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .image-inputs { display: flex; flex-direction: column; gap: 10px; }
         .btn {
             width: 100%;
             padding: 14px;
@@ -62,23 +36,14 @@
             border-radius: 8px;
             font-size: 16px;
             font-weight: 600;
-            cursor: pointer;
             margin-top: 20px;
         }
-        .btn:active {
-            opacity: 0.8;
-        }
-        .help-text {
-            font-size: 12px;
-            color: var(--tg-theme-hint-color, #999);
-            margin-top: 4px;
-        }
+        .help-text { font-size: 12px; color: var(--tg-theme-hint-color, #999); margin-top: 4px; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📹 Tao Video Ban Hang</h1>
-        
+        <h1>Tao Video Ban Hang</h1>
         <form id="videoForm">
             <div class="form-group">
                 <label for="videoCount">So luong video</label>
@@ -86,11 +51,8 @@
                     <option value="1">1 video</option>
                     <option value="2">2 video</option>
                     <option value="3" selected>3 video</option>
-                    <option value="4">4 video</option>
-                    <option value="5">5 video</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="ratio">Ty le video</label>
                 <select id="ratio" required>
@@ -99,30 +61,25 @@
                     <option value="1:1">1:1 (Vuong)</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Link anh nguoi mau</label>
                 <div class="image-inputs" id="imageInputs">
-                    <input type="url" class="image-url" placeholder="Link anh mau 1" required>
-                    <input type="url" class="image-url" placeholder="Link anh mau 2" required>
-                    <input type="url" class="image-url" placeholder="Link anh mau 3" required>
+                    <input type="url" class="image-url" placeholder="Link anh 1" required>
+                    <input type="url" class="image-url" placeholder="Link anh 2" required>
+                    <input type="url" class="image-url" placeholder="Link anh 3" required>
                 </div>
-                <p class="help-text">Nhap link anh tu imgur.com, picsum.photos, etc.</p>
+                <p class="help-text">Vi du: https://picsum.photos/400/600</p>
             </div>
-
             <button type="submit" class="btn">Tao Video</button>
         </form>
     </div>
-
     <script>
         const tg = window.Telegram.WebApp;
         tg.expand();
-        
         const form = document.getElementById('videoForm');
         const videoCountSelect = document.getElementById('videoCount');
         const imageInputsDiv = document.getElementById('imageInputs');
 
-        // Update số ô nhập link ảnh theo số video
         videoCountSelect.addEventListener('change', function() {
             const count = parseInt(this.value);
             imageInputsDiv.innerHTML = '';
@@ -130,7 +87,7 @@
                 const input = document.createElement('input');
                 input.type = 'url';
                 input.className = 'image-url';
-                input.placeholder = `Link anh mau ${i + 1}`;
+                input.placeholder = 'Link anh ' + (i + 1);
                 input.required = true;
                 imageInputsDiv.appendChild(input);
             }
@@ -138,25 +95,23 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const videoCount = videoCountSelect.value;
             const ratio = document.getElementById('ratio').value;
             const imageUrls = Array.from(document.querySelectorAll('.image-url'))
                 .map(input => input.value)
                 .filter(url => url.trim() !== '');
 
-            // Gửi data về bot
             const formData = {
                 videoCount: videoCount,
                 ratio: ratio,
-                modelImages: imageUrls
+                modelImages: imageUrls,
+                chatId: tg.initDataUnsafe?.user?.id || 5979608321
             };
 
             tg.sendData(JSON.stringify(formData));
             tg.close();
         });
 
-        // Enable Main Button
         tg.MainButton.text = "Tao Video";
         tg.MainButton.show();
         tg.MainButton.onClick(function() {
@@ -165,3 +120,17 @@
     </script>
 </body>
 </html>
+```
+
+---
+
+## **BƯỚC 6: PASTE code trên vào GitHub**
+
+---
+
+## **BƯỚC 7: Commit changes**
+
+Cuộn xuống dưới, thấy:
+```
+Commit changes
+[___] Update index.html
